@@ -1,0 +1,15 @@
+[project]
+name = "home-test-wap"
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+addopts = "-q --no-summary --html=report.html --self-contained-html"
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["A", "B", "C90", "E", "F", "I", "N", "PL", "PT", "PTH", "RET", "RUF", "SIM", "UP", "W"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 5

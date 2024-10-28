@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install non-ruby dependencies
+        run: |
+          sudo apt-get install xvfb fluxbox
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run tests inside a window manager
+        run: xvfb-run sh -c "fluxbox & pytest; killall fluxbox"
+
+      - name: Upload HTML Report and Screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HTML report and Screenshots
+          path: |
+            report.html
+            screenshots/
